@@ -8,9 +8,14 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # 允许写入仓库内容
+      issues: read     # 允许读取 issues
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.MY_GITHUB_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
