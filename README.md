@@ -1,4 +1,3 @@
-
 This repository serves as a system for using GitHub Issues as a micro-notes platform, similar to a microblog or services like Flomo. It periodically processes these issues and exports their content into a JSON file, making them accessible for external applications or services.
 
 # Git-Thoughts: Issues to JSON Sync
@@ -81,3 +80,11 @@ If you need to update the `issues.json` file immediately without waiting for the
 3.  Click the **"Run workflow"** button, then confirm by clicking the green **"Run workflow"** button in the dropdown.
 
 The workflow will execute, and if there are any new or updated public issues, the `public/issues.json` file will be updated.
+
+---
+
+## Example Workflow Run
+
+The following image shows an example of the "Sync Public Issues to issues.json" workflow running:
+
+![Workflow Run](./workflow.png)

@@ -35,8 +35,11 @@ async function fetchIssues() {
 
 async function main() {
   const issues = await fetchIssues();
-  fs.writeFileSync('public/issues.json', JSON.stringify(issues, null, 2));
-  console.log(`Fetched ${issues.length} public issues.`);
-}
 
-main();
+  if (!fs.existsSync('public')) {
+    fs.mkdirSync('public');
+  }
+
+  fs.writeFileSync('public/issues.json', JSON.stringify(issues, null, 2));
+  console.log(`✅ Fetched ${issues.length} public issues.`);
+}
