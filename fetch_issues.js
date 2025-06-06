@@ -36,9 +36,8 @@ async function fetchIssues() {
 async function main() {
   const issues = await fetchIssues();
 
-  if (!fs.existsSync('public')) {
-    fs.mkdirSync('public');
-  }
+  // 🔒 关键：确保 public 目录一定存在
+  fs.mkdirSync('public', { recursive: true });
 
   fs.writeFileSync('public/issues.json', JSON.stringify(issues, null, 2));
   console.log(`✅ Fetched ${issues.length} public issues.`);
