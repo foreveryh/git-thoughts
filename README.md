@@ -26,7 +26,7 @@ The system relies on a GitHub Actions workflow that periodically runs a Node.js 
 
 3.  **GitHub Token:**
     *   A GitHub Personal Access Token (PAT) with `repo` scope is required for the script to authenticate with the GitHub API and fetch issues.
-    *   This token is stored as a repository secret named `GITHUB_TOKEN` and is accessed by the workflow.
+    *   This token is stored as a repository secret named `MY_GITHUB_TOKEN` and is accessed by the workflow.
 
 ---
 
@@ -34,8 +34,8 @@ The system relies on a GitHub Actions workflow that periodically runs a Node.js 
 
 *   **Workflow File:** `.github/workflows/sync-issues.yml` (defines the automation).
 *   **Sync Script:** `fetch_issues.js` (handles API interaction and data processing).
-*   **GitHub Secret:** `GITHUB_TOKEN` (stores the PAT securely for the workflow).
-*   **Environment Variable for Script:** The workflow passes `GITHUB_REPO` (e.g., `your-username/git-thoughts`) to the `fetch_issues.js` script.
+*   **GitHub Secret:** `MY_GITHUB_TOKEN` (stores the PAT securely for the workflow).
+*   **Environment Variable for Script:** The workflow passes `GITHUB_REPO` (e.g., `foreveryh/git-thoughts`) to the `fetch_issues.js` script.
 
 ---
 
@@ -50,7 +50,7 @@ Example structure of an issue object within the JSON:
   "number": 42,
   "title": "My Awesome Note",
   "body": "This is the content of my note.",
-  "url": "https://github.com/your-username/git-thoughts/issues/42",
+  "url": "https://github.com/foreveryh/git-thoughts/issues/42",
   "created_at": "2023-01-01T10:00:00Z",
   "updated_at": "2023-01-01T11:00:00Z",
   "tags": ["thoughts", "tech"]
@@ -64,8 +64,7 @@ Example structure of an issue object within the JSON:
 To use the generated `issues.json` in an external application, such as a blog:
 
 1.  Fetch the JSON file directly from its raw GitHub URL:
-    `https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPOSITORY_NAME/main/public/issues.json`
-    (Replace `YOUR_USERNAME`, `YOUR_REPOSITORY_NAME`, and `main` with your actual repository details and default branch if different).
+    `https://raw.githubusercontent.com/foreveryh/git-thoughts/main/public/issues.json`
 2.  Parse the JSON data and display it as required.
     *   For static site generators or frameworks like Next.js, you can use data-fetching methods (e.g., `getStaticProps`) to retrieve this data at build time or via Incremental Static Regeneration (ISR).
 
@@ -87,4 +86,4 @@ The workflow will execute, and if there are any new or updated public issues, th
 
 The following image shows an example of the "Sync Public Issues to issues.json" workflow running:
 
-![Workflow Run](./workflow.png)
+![Workflow Run](workflow.png)
