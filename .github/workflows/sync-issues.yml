@@ -1,0 +1,35 @@
+name: Sync Public Issues to issues.json
+
+on:
+  workflow_dispatch: # 手动按钮
+  schedule:
+    - cron: '0 2 * * *' # 每天凌晨 2 点同步一次，UTC 时间 → 对应法国是 4 点左右
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Dependencies
+        run: npm install node-fetch@2
+
+      - name: Run Sync Script
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+          GITHUB_REPO: foreveryh/git-thoughts
+        run: node fetch_issues.js
+
+      - name: Commit and Push issues.json
+        run: |
+          git config --global user.email "you@example.com"
+          git config --global user.name "GitHub Action"
+          git add public/issues.json
+          git commit -m "chore: update issues.json [skip ci]" || echo "No changes to commit"
+          git push
