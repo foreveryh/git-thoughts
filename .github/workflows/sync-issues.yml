@@ -26,10 +26,31 @@ jobs:
           GITHUB_REPO: foreveryh/git-thoughts
         run: node fetch_issues.js
 
+      - name: Check if issues.json was created
+        run: |
+          if [ -f "public/issues.json" ]; then
+            echo "✅ issues.json file created successfully"
+            ls -la public/
+            echo "File content preview:"
+            head -10 public/issues.json
+          else
+            echo "❌ issues.json file was not created"
+            ls -la
+            exit 1
+          fi
+
       - name: Commit and Push issues.json
         run: |
           git config --global user.email "you@example.com"
           git config --global user.name "GitHub Action"
-          git add public/issues.json
-          git commit -m "chore: update issues.json [skip ci]" || echo "No changes to commit"
-          git push
+          if [ -f "public/issues.json" ]; then
+            git add public/issues.json
+            if git diff --staged --quiet; then
+              echo "No changes to commit"
+            else
+              git commit -m "chore: update issues.json [skip ci]"
+              git push
+            fi
+          else
+            echo "No issues.json file to commit"
+          fi
