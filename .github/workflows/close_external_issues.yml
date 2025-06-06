@@ -1,0 +1,31 @@
+name: Close external issues
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  close_external_issues:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Close issue if opened by non-owner
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issueOwner = context.payload.issue.user.login;
+            const repoOwner = context.repo.owner;
+            if (issueOwner !== repoOwner) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                state: 'closed'
+              });
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: 'This issue was automatically closed because this repo is used for personal notes. Please do not submit issues here. Thank you!'
+              });
+            }
