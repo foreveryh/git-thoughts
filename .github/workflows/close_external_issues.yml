@@ -1,31 +1,44 @@
-name: Close external issues
+name: Close External Issues
 
 on:
   issues:
     types: [opened]
 
 jobs:
-  close_external_issues:
+  close-external-issues:
     runs-on: ubuntu-latest
     steps:
-      - name: Close issue if opened by non-owner
+      - name: Close external issues
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const issueOwner = context.payload.issue.user.login;
             const repoOwner = context.repo.owner;
-            if (issueOwner !== repoOwner) {
+            const issueLabels = context.payload.issue.labels.map(label => label.name);
+            
+            // 检查是否包含 blog-post 标签（从博客发送的Issues）
+            const isBlogPost = issueLabels.includes('blog-post');
+            
+            // 如果是外部用户提交的Issues，并且不是从博客发送的，则关闭
+            if (issueOwner !== repoOwner && !isBlogPost) {
               await github.rest.issues.update({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
                 state: 'closed'
               });
+              
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
                 body: 'This issue was automatically closed because this repo is used for personal notes. Please do not submit issues here. Thank you!'
               });
+              
+              console.log(`Closed external issue #${context.issue.number} from user ${issueOwner}`);
+            } else if (isBlogPost) {
+              console.log(`Keeping blog post issue #${context.issue.number}`);
+            } else {
+              console.log(`Keeping issue #${context.issue.number} from repo owner ${issueOwner}`);
             }
