@@ -1,5 +1,41 @@
 [
   {
+    "id": 3127451027,
+    "number": 6,
+    "title": "来了法国 相册里照片也多了起来",
+    "body": "刚往博客里的相册传了几张照片 翻看手机相册\n有太多好看的照片 城堡 塞纳河 圣母院 奥赛 卢浮宫 或者只是家门口的公园\n有的地方可以经常去 那就不用拍照 就像是塞纳河畔 \n有的地方 可能只是旅行路过 那真的是需要一张照片唤起当时的感觉\n\n![Image](https://github.com/user-attachments/assets/67b9d3a6-5607-41ed-bc9f-7344ab45264f)\n\n ",
+    "url": "https://github.com/foreveryh/git-thoughts/issues/6",
+    "created_at": "2025-06-07T20:09:03Z",
+    "updated_at": "2025-06-07T20:09:41Z",
+    "tags": [
+      "Daily"
+    ]
+  },
+  {
+    "id": 3127175377,
+    "number": 5,
+    "title": "爽过之后是低谷 多看书 管住手 少撸码",
+    "body": "做东西就是爽 有了AI 之后就更爽了 原来有个想法 想做出来 苦于自己技术不行 从想法到实现的最大障碍就是  在设计、写代码、改bug的过程中 渐渐丧失了一开始的激情 往往就是虎头蛇尾\n现在人也成熟了 不会搞一些很大的东西做 做点小手工 就想这次搞得这个碎碎念 半天时间不到 vibe coding 搞得极爽 这个状态就刚刚好 半天 搞定了赶紧该学习学习 忙别的 再多就容易陷进去 多巴胺分泌太多 搞得后面贤者时间太长\n\n上次做 mentis 就是，中间一路过关斩将，没日没夜，爽是爽的不得了，结果就是高潮之后马上陷入了一个情绪低谷 过了好久才恢复过来\n所以 要多看书 管住手 少撸码",
+    "url": "https://github.com/foreveryh/git-thoughts/issues/5",
+    "created_at": "2025-06-07T15:33:18Z",
+    "updated_at": "2025-06-07T15:33:18Z",
+    "tags": [
+      "Reflection"
+    ]
+  },
+  {
+    "id": 3127014053,
+    "number": 2,
+    "title": "2025/6/7",
+    "body": "让 Cursor 给我完成了在博客里发送碎碎念的功能 有了 AI 太爽了 之前做不来的事情 现在说说话 就行了",
+    "url": "https://github.com/foreveryh/git-thoughts/issues/2",
+    "created_at": "2025-06-07T13:22:35Z",
+    "updated_at": "2025-06-07T13:22:35Z",
+    "tags": [
+      "Daily"
+    ]
+  },
+  {
     "id": 3125104998,
     "number": 1,
     "title": "我用 Issues 来记录碎碎念",
