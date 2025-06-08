@@ -46,21 +46,38 @@ For complete Next.js integration with publishing capabilities, see the [technica
 ## How It Works
 
 **Core Components:**
-- 🔄 **GitHub Actions Workflow**: Automatically syncs Issues → JSON on schedule  
+- ⚡ **Real-time Sync**: Auto-triggers when Issues with "Public" label are created/edited
+- 🔄 **GitHub Actions Workflow**: Automatically syncs Issues → JSON 
 - 📝 **Node.js Script**: Fetches and processes public issues via GitHub API
 - 🔒 **External Issue Filter**: Blocks non-owner submissions while preserving blog posts
 - 📊 **Structured Export**: Clean JSON format optimized for frontend consumption
 
 **Key Features:**
-- ✅ Scheduled sync (daily) + manual trigger
-- ✅ Smart filtering by "Public" label  
-- ✅ Tag preservation (excluding "Public" label)
-- ✅ Auto-generated titles and metadata
-- ✅ Conflict-free operation with external repos
+- ⚡ **Real-time Updates**: New/edited Issues trigger instant JSON sync
+- ✅ **Smart Filtering**: Only processes Issues with "Public" label  
+- ✅ **Optimized Triggers**: Avoids unnecessary runs for better performance
+- ✅ **Tag Preservation**: Maintains all labels except "Public" 
+- ✅ **Auto-generated Metadata**: Titles, timestamps, and structured data
+- ✅ **Conflict-free Operation**: Safe for use with external repositories
 
-## Manual Sync
+**Sync Triggers:**
+- 🎯 **Instant**: When Public Issues are created, edited, or labeled
+- ⏰ **Scheduled**: Daily at 2 AM UTC for reliability  
+- 🔄 **Manual**: On-demand via GitHub Actions interface
 
-To trigger an immediate sync:
+## Sync Options
+
+### ⚡ Automatic (Real-time)
+Issues with "Public" label automatically trigger JSON updates:
+- ✅ Creating new Issues
+- ✅ Editing existing content  
+- ✅ Adding/removing labels
+
+### ⏰ Scheduled
+Daily sync at 2 AM UTC ensures consistency
+
+### 🔄 Manual Sync
+For immediate updates:
 1. Go to **Actions** tab → **"Sync Public Issues to issues.json"**
 2. Click **"Run workflow"** button
 3. Updated `issues.json` will be committed automatically
