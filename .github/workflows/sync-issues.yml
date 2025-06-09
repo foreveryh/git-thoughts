@@ -1,24 +1,30 @@
 name: Sync Public Issues to issues.json
 
+# 并发控制：同一时间只允许一个同步任务运行
+concurrency:
+  group: sync-issues
+  cancel-in-progress: false  # 不取消正在运行的任务，而是排队等待
+
 on:
   workflow_dispatch: # 手动按钮
   schedule:
     - cron: '0 2 * * *' # 每天凌晨 2 点同步一次，UTC 时间 → 对应法国是 4 点左右
   issues:
-    types: [opened, edited, labeled, unlabeled] # 优化：移除 closed, reopened 减少不必要触发
+    types: [opened, edited] # 仅在创建和编辑时触发，不包含标签操作(labeled, unlabeled)
 
 jobs:
   sync:
     runs-on: ubuntu-latest
-    # 只在涉及 Public 标签的 Issues 时运行，或者是定时/手动触发
+    # 只在以下情况运行：
+    # 1. 定时任务 - 确保数据同步
+    # 2. 手动触发 - 管理员手动同步
+    # 3. Issues 内容变化且带有 Public 标签 - 有新的公开内容需要同步
     if: >
       github.event_name == 'schedule' || 
       github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'issues' && (
-        contains(github.event.issue.labels.*.name, 'Public') ||
-        github.event.action == 'labeled' ||
-        github.event.action == 'unlabeled'
-      ))
+      (github.event_name == 'issues' && 
+       contains(github.event.issue.labels.*.name, 'Public') &&
+       (github.event.action == 'opened' || github.event.action == 'edited'))
     permissions:
       contents: write  # 允许写入仓库内容
       issues: read     # 允许读取 issues
@@ -35,6 +41,10 @@ jobs:
 
       - name: Install Dependencies
         run: npm install node-fetch@2
+
+      - name: Wait for potential concurrent changes
+        if: github.event_name == 'issues'
+        run: sleep 10  # 等待10秒，避免频繁的连续触发
 
       - name: Run Sync Script
         env:

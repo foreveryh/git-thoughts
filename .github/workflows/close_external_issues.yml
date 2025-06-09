@@ -7,6 +7,11 @@ on:
 jobs:
   close-external-issues:
     runs-on: ubuntu-latest
+    # 严格确保只处理外部用户创建的 Issues
+    # 绝不处理仓库所有者自己创建的 Issues
+    if: >
+      github.event.issue.user.login != github.repository_owner &&
+      github.event.issue.user.id != github.repository_owner_id
     steps:
       - name: Close external issues
         uses: actions/github-script@v6
@@ -17,11 +22,23 @@ jobs:
             const repoOwner = context.repo.owner;
             const issueLabels = context.payload.issue.labels.map(label => label.name);
             
+            console.log(`Issue creator: ${issueOwner}`);
+            console.log(`Repository owner: ${repoOwner}`);
+            console.log(`Issue labels: ${issueLabels.join(', ')}`);
+            
             // 检查是否包含 blog-post 标签（从博客发送的Issues）
             const isBlogPost = issueLabels.includes('blog-post');
             
+            // 双重检查：确保不是仓库所有者创建的 Issues
+            if (issueOwner === repoOwner) {
+              console.log(`❌ Safety check: Issue #${context.issue.number} is from repo owner ${issueOwner}, will NOT close`);
+              return;
+            }
+            
             // 如果是外部用户提交的Issues，并且不是从博客发送的，则关闭
-            if (issueOwner !== repoOwner && !isBlogPost) {
+            if (!isBlogPost) {
+              console.log(`🔒 Closing external issue #${context.issue.number} from user ${issueOwner}`);
+              
               await github.rest.issues.update({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
@@ -33,12 +50,9 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.issue.number,
-                body: 'This issue was automatically closed because this repo is used for personal notes. Please do not submit issues here. Thank you!'
+                body: 'This issue was automatically closed because this repository is used for personal notes. Please do not submit issues here. Thank you for your understanding! 🙏'
               });
               
-              console.log(`Closed external issue #${context.issue.number} from user ${issueOwner}`);
-            } else if (isBlogPost) {
-              console.log(`Keeping blog post issue #${context.issue.number}`);
             } else {
-              console.log(`Keeping issue #${context.issue.number} from repo owner ${issueOwner}`);
+              console.log(`📝 Keeping blog post issue #${context.issue.number} from user ${issueOwner}`);
             }

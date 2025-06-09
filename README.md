@@ -61,17 +61,17 @@ For complete Next.js integration with publishing capabilities, see the [technica
 - ✅ **Conflict-free Operation**: Safe for use with external repositories
 
 **Sync Triggers:**
-- 🎯 **Instant**: When Public Issues are created, edited, or labeled
+- 🎯 **Content Changes**: When Public Issues are created or edited (not just labeled)
 - ⏰ **Scheduled**: Daily at 2 AM UTC for reliability  
 - 🔄 **Manual**: On-demand via GitHub Actions interface
 
 ## Sync Options
 
 ### ⚡ Automatic (Real-time)
-Issues with "Public" label automatically trigger JSON updates:
+Issues with "Public" label automatically trigger JSON updates on content changes:
 - ✅ Creating new Issues
 - ✅ Editing existing content  
-- ✅ Adding/removing labels
+- ❌ Adding/removing labels alone (optimized to avoid unnecessary runs)
 
 ### ⏰ Scheduled
 Daily sync at 2 AM UTC ensures consistency
